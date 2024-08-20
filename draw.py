@@ -23,5 +23,15 @@ def convert_to_sketch(image):
     
     # Combine the sketch with the inverted Laplacian
     sketch_with_edges = cv2.multiply(sketch, laplacian_inverted, scale=1/256.0)
+    smoothed_sketch = cv2.bilateralFilter(sketch_with_edges, d=10, sigmaColor=20, sigmaSpace=20)
     
-    return sketch_with_edges
+    return smoothed_sketch
+    
+def color_sketch(original_image, sketch_image):
+    # Convert sketch to BGR
+    sketch_bgr = cv2.cvtColor(sketch_image, cv2.COLOR_GRAY2BGR)
+    
+    # Blend the sketch with the original image
+    colored_sketch = cv2.addWeighted(original_image, 0.2, sketch_bgr, 0.8, 0)
+    
+    return colored_sketch
