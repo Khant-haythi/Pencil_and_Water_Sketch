@@ -1,6 +1,8 @@
 
 import cv2
 import numpy as np
+from io import BytesIO
+import math
 
 def convert_to_sketch(image):
    # Convert to grayscale
@@ -27,11 +29,37 @@ def convert_to_sketch(image):
     
     return smoothed_sketch
     
-def color_sketch(original_image, sketch_image):
-    # Convert sketch to BGR
-    sketch_bgr = cv2.cvtColor(sketch_image, cv2.COLOR_GRAY2BGR)
-    
-    # Blend the sketch with the original image
-    colored_sketch = cv2.addWeighted(original_image, 0.2, sketch_bgr, 0.8, 0)
-    
-    return colored_sketch
+
+
+
+def convert_watercolor(inp_img, ksize=31):
+    # Convert the image to HSV color space
+    img_hsv = cv2.cvtColor(inp_img, cv2.COLOR_BGR2HSV)
+
+    # Adjust the value (brightness) channel
+    adjust_v = (img_hsv[:, :, 2].astype("uint")+5)*2
+    adjust_v = ((adjust_v > 255) * 255 + (adjust_v <= 255) * adjust_v).astype("uint8")
+    img_hsv[:, :, 2] = adjust_v
+
+    # Convert the image back to RGB color space
+    img_soft = cv2.cvtColor(img_hsv, cv2.COLOR_HSV2BGR)
+
+    # Apply Gaussian blur to the image
+    img_soft = cv2.GaussianBlur(img_soft, (ksize, ksize), 0)
+
+    # Convert the image to grayscale and apply histogram equalization
+    img_gray = cv2.cvtColor(inp_img, cv2.COLOR_BGR2GRAY)
+    img_gray = cv2.equalizeHist(img_gray)
+
+    # Create a sketch-like effect
+    invert = cv2.bitwise_not(img_gray)
+    blur = cv2.GaussianBlur(invert, (21, 21), 0)
+    invertedblur = cv2.bitwise_not(blur)
+    sketch = cv2.divide(img_gray, invertedblur, scale=265.0)
+    sketch = cv2.merge([sketch, sketch, sketch])
+
+    # Combine the soft and sketch effects
+    img_water = ((sketch / 255.0) * img_soft).astype("uint8")
+
+    return img_water
+
