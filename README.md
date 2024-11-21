@@ -6,16 +6,23 @@ Pencil Sketch Effect: Turn your photos into delicate, hand-drawn pencil sketches
 Watercolor Painting Effect: Add a splash of color and fluidity to your photos, mimicking the charm of traditional watercolor art.
 User-Friendly Interface: Upload your photo and watch the transformation happen in seconds with an intuitive and minimalistic interface.
 
+# 🔧 Technologies Used
+Python
+OpenCV
+Streamlit
+
 ## Setup
 
 1. Clone this repository.
 2. Install the required packages: pip install  -r requirements.txt
-3. Run the Streamlit app:
+3. Run the Streamlit app: streamlit run app.py 
 
 ## Usage
 
-1. Upload an image when prompted in the Streamlit app.
-2. The app will display the detected hair color, eye color, and skin tone.
-3. Based on these features, it will classify the color season.
+1.Upload Your Photo:
+Open the app in your browser, upload your desired photo, and choose between Pencil Sketch or Watercolor Painting effects.
 
-Note: This is a simplified version and may not be as accurate as more advanced systems.
+2. Save and Share:
+Once the transformation is complete, download the processed image and share your masterpiece with friends and family!
+
+
