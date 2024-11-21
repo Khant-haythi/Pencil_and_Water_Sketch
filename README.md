@@ -22,7 +22,7 @@ Streamlit
 1.Upload Your Photo:
 Open the app in your browser, upload your desired photo, and choose between Pencil Sketch or Watercolor Painting effects.
 
-2. Save and Share:
+2.Save and Share:
 Once the transformation is complete, download the processed image and share your masterpiece with friends and family!
 
 
